@@ -54,4 +54,4 @@
 - Agent spec generated and stored in Supabase
 
 ## Loom Video
-[Add your Loom video link here]
+[https://www.loom.com/share/6d9925255bfb44c1bb98fff8a917db90]
