@@ -1,0 +1,51 @@
+{
+  "account_id": "ben_electric_001",
+  "company_name": "Ben's Electric Solutions",
+  "business_hours": {
+    "days": "Monday to Friday",
+    "start": "8:30 AM",
+    "end": "5:00 PM",
+    "timezone": "infer from location — Canada, likely EST or PST, flag as unknown"
+  },
+  "office_address": "unknown — not mentioned in transcript",
+  "services_supported": [
+    "Electrical service calls",
+    "Residential work",
+    "Commercial work (gas stations via G&M)"
+  ],
+  "emergency_definition": [
+    "After-hours calls from G&M Pressure Washing (property manager)",
+    "Calls related to Chevron or Esso gas stations managed by G&M"
+  ],
+  "emergency_routing_rules": {
+    "who_to_call": "Ben (owner) — transfer to his second number once available",
+    "trigger": "Caller identifies as G&M Pressure Washing or mentions Shelly or a gas station emergency",
+    "fallback": "Take name, number, address and assure callback"
+  },
+  "non_emergency_routing_rules": {
+    "office_hours": "Clara answers, collects name and number, provides pricing info if asked, schedules callback or appointment",
+    "after_hours": "Clara answers, explains next business day callback, takes message"
+  },
+  "call_transfer_rules": {
+    "transfer_number": "Ben's second number — to be provided",
+    "timeout": "not specified",
+    "transfer_fail_fallback": "Take name, number, assure callback"
+  },
+  "pricing_info": {
+    "service_call_fee": "$115 (callout fee, gets to job site)",
+    "hourly_rate_residential": "$98/hour",
+    "billing_increment": "Half-hour increments after initial callout",
+    "half_hour_rate": "$49",
+    "mention_policy": "Only mention pricing if caller asks — do not volunteer on every call"
+  },
+  "integration_constraints": "none mentioned",
+  "after_hours_flow_summary": "Greet caller. If G&M/emergency: collect details, transfer to Ben's second number. For all others: take message, confirm next business day callback.",
+  "office_hours_flow_summary": "Greet caller. Collect name and number. Answer basic service/pricing questions if asked. Route or take message for Ben.",
+  "questions_or_unknowns": [
+    "Ben's second phone number (for call transfer) — pending",
+    "Exact timezone not confirmed",
+    "Office address not provided",
+    "G&M Pressure Washing contact number/email not fully captured in transcript"
+  ],
+  "notes": "Ben uses Android. Call forwarding to Clara set up as 'forward if not answered or declined'. Clara should NOT answer if Ben picks up. Service area not specified but likely local city (Canada)."
+}
