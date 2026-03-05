@@ -1,44 +1,57 @@
 # Clara Automation Pipeline
 
-## What This Pipeline Does
-Automatically processes client onboarding transcripts and generates:
-- Account memo JSON (extracted client info)
-- Retell AI agent spec JSON
-- Stores everything in Supabase
-- Tracks changes between versions
+## Architecture and Data Flow
+1. Transcript input → n8n Pipeline A
+2. Groq AI extracts account memo JSON
+3. Groq AI generates Retell agent spec JSON
+4. Data stored in Supabase
+5. Outputs saved in GitHub repo
+6. Pipeline B updates account to v2 with changelog
 
-## How to Run
-1. Open n8n
+## How to Run Locally
+1. Sign up at n8n.io (free cloud version)
 2. Import `/workflows/pipeline_a.json`
-3. Add your environment variables
-4. Paste transcript into HTTP Request node
+3. Import `/workflows/pipeline_b.json`
+4. Add environment variables (see below)
 5. Click "Execute Workflow"
 
 ## Environment Variables Needed
-- `GROQ_API_KEY` - Get from console.groq.com
+- `GROQ_API_KEY` - Get from console.groq.com (free)
 - `SUPABASE_URL` - Your Supabase project URL
 - `SUPABASE_ANON_KEY` - Your Supabase anon key
 
-## Task Tracking
-Pipeline A automatically logs completion.
-Account configured: ben_electric_001
-Status: Complete
-Version: v1
-Agent spec generated and stored in Supabase.
+## How to Plug in Dataset Files
+1. Open Pipeline A in n8n
+2. Go to HTTP Request node
+3. Replace transcript text in the content field
+4. Click Execute Workflow
 
-## Output Structure
-```
-/outputs/accounts/ben_electric/v1/memo.json
-/outputs/accounts/ben_electric/v1/agent_spec.json
-/outputs/accounts/ben_electric/v2/memo.json
-/outputs/accounts/ben_electric/v2/agent_spec.json
-/changelog/ben_electric_changes.json
-```
+## Where Outputs Are Stored
+- `/outputs/accounts/<account_id>/v1/memo.json`
+- `/outputs/accounts/<account_id>/v1/agent_spec.json`
+- `/outputs/accounts/<account_id>/v2/memo.json`
+- `/outputs/accounts/<account_id>/v2/agent_spec.json`
+- `/changelog/`
 
 ## Known Limitations
-- Timezone not always in transcript
+- Timezone not always present in transcript
 - Transfer number pending from client
-- Audio transcription not yet automated
+- Gmail OAuth not configured - tracking done manually
+- Currently configured for 1 account (Ben's Electric)
+- Remaining 4 accounts pending transcript delivery
+
+## What I Would Improve With Production Access
+- Retell API integration for programmatic agent creation
+- Whisper for automatic audio transcription
+- Automated Gmail/Slack notifications
+- Batch processing for all 10 accounts
+- Dashboard to view all accounts
+
+## Task Tracking
+- Account configured: ben_electric_001
+- Status: Complete
+- Version: v1 and v2
+- Agent spec generated and stored in Supabase
 
 ## Loom Video
 [Add your Loom video link here]
