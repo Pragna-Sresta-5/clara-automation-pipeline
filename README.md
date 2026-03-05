@@ -4,7 +4,7 @@ A fully automated agent configuration and onboarding pipeline powered by AI, bui
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ### Pipeline A: Demo Call → Preliminary Agent
 
@@ -167,20 +167,20 @@ clara-automation-pipeline/
 
 ---
 
-## 🛠️ Tools Used (All Free Tier)
+## Tools Used (All Free Tier)
 
-| Tool | Purpose | Status |
-|------|---------|--------|
-| **n8n Cloud** | Automation orchestrator | ✅ Free tier |
-| **Groq AI** | LLM extraction (llama-3.3-70b) | ✅ Free tier |
-| **Supabase** | Database storage & versioning | ✅ Free tier |
-| **GitHub** | File storage & version control | ✅ Free tier |
-| **Gmail** | Task notifications | ⚠️ Manual config |
-| **Retell** | Agent spec (manual import) | 📋 Pending API |
+| Tool | Purpose
+|------|---------
+| **n8n Cloud** | Automation orchestrator
+| **Groq AI** | LLM extraction (llama-3.3-70b)
+| **Supabase** | Database storage & versioning 
+| **GitHub** | File storage & version control 
+| **Gmail** | Task notifications
+| **Retell** | Agent spec (manual import)
 
 ---
 
-## 🚀 Quick Start Guide
+## Quick Start Guide
 
 ### Prerequisites
 - n8n Cloud account (free)
@@ -232,7 +232,7 @@ clara-automation-pipeline/
 
 ---
 
-## 📂 Output Locations
+## Output Locations
 
 All generated files are stored in the repository:
 
@@ -246,31 +246,31 @@ All generated files are stored in the repository:
 
 ---
 
-## ⚠️ Known Limitations
+##  Known Limitations
 
-- ❌ Timezone not always present in transcript
-- ⏳ Transfer number pending from client
-- 🔐 Gmail OAuth not configured (manual tracking)
-- 🔢 Currently configured for 1 account (Ben's Electric)
-- 📥 Remaining 4 accounts pending transcript delivery
+- Timezone not always present in transcript
+- Transfer number pending from client
+- Gmail OAuth not configured (manual tracking)
+- Currently configured for 1 account (Ben's Electric)
+- Remaining 4 accounts pending transcript delivery
 
 ---
 
-## 🎯 Production Roadmap
+## Production Roadmap
 
 **Features to implement with production access:**
 
-- 🔗 Retell API integration for programmatic agent creation
-- 🎤 Whisper integration for automatic audio transcription
-- 📧 Automated Gmail/Slack notifications
-- 📊 Batch processing for all 10 accounts
-- 📈 Dashboard to view and manage all accounts
-- 🔄 Real-time synchronization
-- 🔒 Advanced error handling & retry logic
+- Retell API integration for programmatic agent creation
+- Whisper integration for automatic audio transcription
+- Automated Gmail/Slack notifications
+- Batch processing for all 10 accounts
+- Dashboard to view and manage all accounts
+- Real-time synchronization
+- Advanced error handling & retry logic
 
 ---
 
-## 📊 Current Status
+## Current Status
 
 | Item | Status | Details |
 |------|--------|---------|
@@ -282,22 +282,20 @@ All generated files are stored in the repository:
 
 ---
 
-## 📹 Demo & Resources
+## Demo & Resources
 
 **Loom Video Walkthrough:**
 [https://www.loom.com/share/6d9925255bfb44c1bb98fff8a917db90](https://www.loom.com/share/6d9925255bfb44c1bb98fff8a917db90)
 
 ---
 
-## 💡 Architecture Highlights
+## Architecture Highlights
 
-✨ **Zero-Cost Infrastructure** - All tools have free tiers  
-🔄 **Versioning System** - Track all account changes with changelogs  
-🤖 **AI-Powered** - Groq AI handles intelligent extraction and spec generation  
-📦 **Version Control** - GitHub stores all outputs with full history  
-🔐 **Data Persistence** - Supabase provides reliable database backend  
-⚡ **Automated Workflow** - n8n orchestrates the entire pipeline  
+ **Zero-Cost Infrastructure** - All tools have free tiers  
+ **Versioning System** - Track all account changes with changelogs  
+ **AI-Powered** - Groq AI handles intelligent extraction and spec generation  
+ **Version Control** - GitHub stores all outputs with full history  
+ **Data Persistence** - Supabase provides reliable database backend  
+ **Automated Workflow** - n8n orchestrates the entire pipeline  
 
 ---
-
-Made with ❤️ for Clara Automation Pipeline
