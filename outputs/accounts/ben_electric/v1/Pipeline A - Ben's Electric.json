@@ -1,0 +1,288 @@
+{
+  "name": "Pipeline A - Ben's Electric",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "047a1321-e9dc-463f-b9cc-ec48d3ee1388",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_GROQ_API_KEY_HERE"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"llama-3.3-70b-versatile\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a data extraction assistant. You must respond with ONLY a valid JSON object. No explanations, no greetings, no markdown, no code blocks. Just raw JSON.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Extract account information from this transcript and return ONLY a valid JSON object with these exact fields: account_id, company_name, business_hours, office_address, services_supported, emergency_definition, emergency_routing_rules, non_emergency_routing_rules, call_transfer_rules, pricing_info, after_hours_flow_summary, office_hours_flow_summary, questions_or_unknowns, notes. If a field is missing set it to null. Transcript: Ben's Electric Solutions onboarding call. Business hours Monday to Friday 8:30 AM to 5 PM. Service call fee $115, hourly rate $98. Emergency contact is G&M Pressure Washing.\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "3fda6b04-1557-422c-8fb8-d6e2e6d20b20",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = items[0].json;\nconst content = response.choices[0].message.content;\n\n// Clean the response and parse JSON\nconst cleanContent = content.replace(/```json/g, '').replace(/```/g, '').trim();\nconst parsedMemo = JSON.parse(cleanContent);\n\nreturn [{ json: parsedMemo }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "40d63d6d-4c60-4a8c-845d-9658f7b42e9d",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "tableId": "accounts",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "account_id",
+              "fieldValue": "=ben_electric_001"
+            },
+            {
+              "fieldId": "company_name",
+              "fieldValue": "={{ $json.company_name }}"
+            },
+            {
+              "fieldId": "version",
+              "fieldValue": "1"
+            },
+            {
+              "fieldId": "memo_json",
+              "fieldValue": "={{ $json }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ new Date().toISOString() }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "3d56b0ad-71f4-455f-b069-16ab0b35772f",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "XwgJWzPkY1nibhps",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR_GROQ_API_KEY_HERE"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"llama-3.3-70b-versatile\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are an AI agent configurator. You must respond with ONLY a valid JSON object. No explanations, no markdown, no code blocks. Just raw JSON.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \"Generate a Retell AI agent spec JSON for: company_name: Ben's Electric Solutions, business_hours: Monday to Friday 8:30 AM to 5 PM, service_call_fee: $115, hourly_rate: $98, emergency_contact: G&M Pressure Washing. Include: agent_name, voice_style, system_prompt, call_transfer_protocol, fallback_protocol.\"\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        832,
+        0
+      ],
+      "id": "424d7943-7c44-4402-980c-520a456784e1",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const response = items[0].json;\nconst content = response.choices[0].message.content;\n\nconst cleanContent = content.replace(/```json/g, '').replace(/```/g, '').trim();\nconst parsedSpec = JSON.parse(cleanContent);\n\nreturn [{ json: parsedSpec }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "082c6762-2a93-46fb-a6e3-3ce49ad4e177",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "accounts",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "account_id",
+              "condition": "eq",
+              "keyValue": "ben_electric_001"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "agent_spec_json",
+              "fieldValue": "={{ $json }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        0
+      ],
+      "id": "21731c15-d28e-48e3-bbe5-7830efc1fa1b",
+      "name": "Update a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "XwgJWzPkY1nibhps",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1456,
+        0
+      ],
+      "id": "235d7178-b591-4961-a4d2-ce34e32e3b61",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "a8126fa4-1409-4ead-b80c-1c9fa8c1be51",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "046c3fff5a3d0d95d2fe755e1caddf13b17c7391acfa2afbd5caaed4a6f2131c"
+  },
+  "id": "1XN3rhasSg6L2yt6",
+  "tags": []
+}
