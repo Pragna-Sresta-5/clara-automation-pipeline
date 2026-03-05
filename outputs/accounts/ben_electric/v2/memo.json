@@ -1,0 +1,24 @@
+{
+  "account_id": "ben_electric_001",
+  "company_name": "Ben's Electric Solutions",
+  "business_hours": {
+    "days": "Monday to Friday",
+    "start": "8:30 AM",
+    "end": "5:00 PM",
+    "timezone": "unknown"
+  },
+  "pricing_info": {
+    "service_call_fee": "$115",
+    "hourly_rate": "$98/hour",
+    "half_hour_rate": "$49"
+  },
+  "notification_email": "info@benlectricsolutionsteam.com",
+  "emergency_routing_rules": {
+    "who_to_call": "Ben",
+    "trigger": "G&M Pressure Washing or Shelly or gas station emergency"
+  },
+  "call_transfer_rules": {
+    "transfer_number": "pending"
+  },
+  "version": "v2"
+}
