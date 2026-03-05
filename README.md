@@ -19,6 +19,13 @@ Automatically processes client onboarding transcripts and generates:
 - `SUPABASE_URL` - Your Supabase project URL
 - `SUPABASE_ANON_KEY` - Your Supabase anon key
 
+## Task Tracking
+Pipeline A automatically logs completion.
+Account configured: ben_electric_001
+Status: Complete
+Version: v1
+Agent spec generated and stored in Supabase.
+
 ## Output Structure
 ```
 /outputs/accounts/ben_electric/v1/memo.json
