@@ -1,5 +1,5 @@
 {
-  "name": "Pipeline A - Ben's Electric",
+  "name": "Pipeline A - Ben's Electric Project",
   "nodes": [
     {
       "parameters": {},
@@ -190,6 +190,29 @@
       ],
       "id": "235d7178-b591-4961-a4d2-ce34e32e3b61",
       "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "sendTo": "prasadjayaram405@gmail.com",
+        "subject": "New account configured: Ben's Electric v1",
+        "message": "Pipeline A completed. Account ID: ben_electric_001. Memo and agent spec generated successfully.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1632,
+        0
+      ],
+      "id": "62b8bf10-6585-4556-9736-ef77d2cc7407",
+      "name": "Send a message",
+      "webhookId": "00fd1992-5648-4a6b-824a-c4cfb7b2c00e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "t73z6UFZwR12A1me",
+          "name": "Gmail account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -270,6 +293,17 @@
           }
         ]
       ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -278,7 +312,7 @@
     "binaryMode": "separate",
     "availableInMCP": false
   },
-  "versionId": "a8126fa4-1409-4ead-b80c-1c9fa8c1be51",
+  "versionId": "053b6722-7874-4378-8179-7d82d632f1f7",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "046c3fff5a3d0d95d2fe755e1caddf13b17c7391acfa2afbd5caaed4a6f2131c"
