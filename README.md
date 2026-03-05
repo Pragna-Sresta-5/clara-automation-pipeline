@@ -1,12 +1,138 @@
 # Clara Automation Pipeline
 
-## Architecture and Data Flow
-1. Transcript input → n8n Pipeline A
-2. Groq AI extracts account memo JSON
-3. Groq AI generates Retell agent spec JSON
-4. Data stored in Supabase
-5. Outputs saved in GitHub repo
-6. Pipeline B updates account to v2 with changelog
+ARCHITECTURE
+
+PIPELINE A - Demo Call → Preliminary Agent
+==========================================
+
+[INPUT]
+Transcript Text (Ben's Electric Solutions)
+         |
+         ↓
+[TRIGGER]
+n8n Manual Trigger
+         |
+         ↓
+[STEP 1 - EXTRACTION]
+HTTP Request → Groq AI (llama-3.3-70b-versatile)
+Prompt: Extract account info from transcript
+         |
+         ↓
+[STEP 2 - PARSE]
+Code Node → Parse JSON response
+         |
+         ↓
+[STEP 3 - STORE MEMO]
+Supabase → Create row in accounts table
+- account_id: ben_electric_001
+- company_name, business_hours, pricing_info
+- version: 1
+         |
+         ↓
+[STEP 4 - GENERATE AGENT SPEC]
+HTTP Request → Groq AI (llama-3.3-70b-versatile)
+Prompt: Generate Retell agent spec from memo
+         |
+         ↓
+[STEP 5 - PARSE AGENT SPEC]
+Code Node → Parse JSON response
+         |
+         ↓
+[STEP 6 - UPDATE STORAGE]
+Supabase → Update row with agent_spec_json
+         |
+         ↓
+[STEP 7 - NOTIFY]
+Gmail → Send email notification
+"New account configured: Ben's Electric v1"
+         |
+         ↓
+[OUTPUT]
+memo.json saved in GitHub
+agent_spec.json saved in GitHub
+Data stored in Supabase
+Email notification sent
+
+
+PIPELINE B - Onboarding → Agent Update
+=======================================
+
+[INPUT]
+Updated onboarding info (v2 data)
+         |
+         ↓
+[TRIGGER]
+n8n Manual Trigger
+         |
+         ↓
+[STEP 1 - UPDATE ACCOUNT]
+Supabase → Update accounts table
+- version: 2
+- memo_json: updated
+- agent_spec_json: updated v2
+         |
+         ↓
+[STEP 2 - SAVE CHANGELOG]
+Supabase → Create row in accounts_changelog
+- from_version: 1
+- to_version: 2
+- changes: list of updated fields
+         |
+         ↓
+[OUTPUT]
+v2 memo.json saved in GitHub
+v2 agent_spec.json saved in GitHub
+changelog saved in GitHub
+Supabase updated to v2
+
+
+STORAGE ARCHITECTURE
+====================
+
+GitHub Repo
+├── /workflows
+│   ├── pipeline_a.json
+│   └── pipeline_b.json
+├── /outputs
+│   └── /accounts
+│       └── /ben_electric
+│           ├── /v1
+│           │   ├── memo.json
+│           │   └── agent_spec.json
+│           └── /v2
+│               ├── memo.json
+│               └── agent_spec.json
+├── /changelog
+│   └── ben_electric_changes.json
+├── /scripts
+│   └── retell_setup.md
+└── README.md
+
+Supabase Database
+├── accounts table
+│   ├── account_id (primary key)
+│   ├── company_name
+│   ├── version
+│   ├── memo_json
+│   ├── agent_spec_json
+│   └── created_at
+└── accounts_changelog table
+    ├── id
+    ├── account_id
+    ├── from_version
+    ├── to_version
+    ├── changes
+    └── created_at
+
+
+TOOLS USED (ALL FREE)
+=====================
+- n8n Cloud → Automation orchestrator
+- Groq AI → LLM extraction (free tier)
+- Supabase → Database storage (free tier)
+- GitHub → File storage and versioning
+- Gmail → Task notifications
+- Retell → Agent spec (manual import)
 
 ## How to Run Locally
 1. Sign up at n8n.io (free cloud version)
