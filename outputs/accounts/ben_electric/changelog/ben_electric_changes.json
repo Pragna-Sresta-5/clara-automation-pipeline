@@ -1,0 +1,32 @@
+{
+  "account_id": "ben_electric_001",
+  "from_version": "v1",
+  "to_version": "v2",
+  "changes": [
+    {
+      "field": "pricing_info",
+      "action": "added",
+      "detail": "Service call fee $115, hourly $98, half-hour increments"
+    },
+    {
+      "field": "emergency_routing_rules.trigger",
+      "action": "updated",
+      "detail": "Added G&M Pressure Washing / Shelly as emergency identifier"
+    },
+    {
+      "field": "notification_email",
+      "action": "added",
+      "detail": "info@benlectricsolutionsteam.com"
+    },
+    {
+      "field": "call_transfer_rules.transfer_number",
+      "action": "flagged",
+      "detail": "Ben's second number still pending"
+    },
+    {
+      "field": "after_hours_flow_summary",
+      "action": "updated",
+      "detail": "Only G&M gets patched through after hours"
+    }
+  ]
+}
